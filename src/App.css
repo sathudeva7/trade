@@ -36,3 +36,50 @@
     transform: rotate(360deg);
   }
 }
+
+.badge {
+  font-size: 100%;
+  font-weight: 100;
+}
+
+footer {
+  background: #212529;
+}
+
+.card {
+  border: none;
+} 
+
+.time {
+  font-size: 9px !important
+}
+
+.socials i {
+  margin-right: 14px;
+  font-size: 17px;
+  color: #d2c8c8;
+  cursor: pointer
+}
+
+.feed-image img {
+  width: 100%;
+  height: auto
+}
+
+.btc {
+  background-color: darkcyan;    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+.btc-logo {
+  height: 25px;
+  margin-right: 5px;
+}
+.btc-price {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
