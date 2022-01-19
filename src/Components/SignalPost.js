@@ -1,11 +1,16 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useContext} from 'react'
 import TradeValue from './TradeValue'
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { commentActions } from '../Redux/actions/commentActions';
+import { TransactionContext } from '../context/TransactionContext';
+import Modal from '../Components/modal/Modal';
+import ModalBody from '../Components/modal/ModalBody';
 
 export default function SignalPost({signal,key}) {
+    const {connectWallet} = useContext(TransactionContext);
 
+  //  console.log(connectWallet,'dfsdfffffffffffff')
     // const dispatch = useDispatch();
     // const {comments, isLoading, error} = useSelector(state =>
     //     ({
@@ -40,6 +45,93 @@ export default function SignalPost({signal,key}) {
                                             <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
                                         </div>
                                     </div>
+
+                                    <Modal modalTitle="Pricing" modalId="exampleModal2" modalSize="modal-dialog modal-xl">
+                                        <ModalBody>
+                                            <div class="form-group">
+                                            <div class="container">
+                                                <div class="row">
+                                                
+                                                <div class="col-lg-4">
+                                                    <div class="card mb-5 mb-lg-0">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-muted text-uppercase text-center">Basic</h5>
+                                                        <h6 class="card-price text-center"><span class="period">FREE</span></h6>
+                                                        <hr/>
+                                                        <ul class="fa-ul">
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Single User</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>5GB Storage</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Public Projects</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Community Access</li>
+                                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Unlimited
+                                                            Private Projects</li>
+                                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Dedicated
+                                                            Phone Support</li>
+                                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Free Subdomain
+                                                        </li>
+                                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Monthly Status
+                                                            Reports</li>
+                                                        </ul>
+                                                        <div class="d-grid">
+                                                        <button class="btn btn-primary text-uppercase">Start</button>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-lg-4">
+                                                    <div class="card mb-5 mb-lg-0">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-muted text-uppercase text-center">Plus</h5>
+                                                        <h6 class="card-price text-center">0.01 ETH<span class="period"> / month</span></h6>
+                                                        <hr/>
+                                                        <ul class="fa-ul">
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span><strong>5 Users</strong></li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>50GB Storage</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Public Projects</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Community Access</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Private Projects</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Dedicated Phone Support</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Free Subdomain</li>
+                                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Monthly Status
+                                                            Reports</li>
+                                                        </ul>
+                                                        <div class="d-grid">
+                                                        <button class="btn btn-primary text-uppercase">Pay Now</button>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-lg-4">
+                                                    <div class="card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-muted text-uppercase text-center">Pro</h5>
+                                                        <h6 class="card-price text-center">0.1 ETH<span class="period"> / year</span></h6>
+                                                        <hr/>
+                                                        <ul class="fa-ul">
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Unlimited Users</strong>
+                                                        </li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>150GB Storage</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Public Projects</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Community Access</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Private Projects</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Dedicated Phone Support</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Unlimited</strong> Free
+                                                            Subdomains</li>
+                                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Monthly Status Reports</li>
+                                                        </ul>
+                                                        <div class="d-grid">
+                                                        <button class="btn btn-primary text-uppercase">Pay Now</button>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </ModalBody>
+                                    </Modal>
                                     
 
                                     {signal.paid === false ? <div>
@@ -88,7 +180,7 @@ export default function SignalPost({signal,key}) {
                                                 <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
                                             </div>
                                     </div>
-                                    : <div><span class="badge badge-pill badge-dark">Tab to join Premium</span>                                    </div>}
+                                    : <div><button id="btnTrigger" data-toggle="modal" data-target="#exampleModal2" onClick={connectWallet}><span class="badge badge-pill badge-dark">Tab to join Premium</span></button></div>}
                                 </div>
                             </div>
                         </div>

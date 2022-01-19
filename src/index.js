@@ -5,10 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import store from '../src/Helper/store';
+import { TransactionProvider } from "../src/context/TransactionContext";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <TransactionProvider>
+      <App />
+    </TransactionProvider>
   </Provider>,
   document.getElementById('root')
 );

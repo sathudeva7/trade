@@ -1,7 +1,11 @@
-import React, { Component } from 'react'
+import React, {useContext} from 'react'
+import { TransactionContext } from '../context/TransactionContext'
+import Modal from '../Components/modal/Modal';
+import ModalBody from '../Components/modal/ModalBody';
 
-export default class Header extends Component {
-    render() {
+export default function Header() {
+    const { connectWallet, currentAccount } = useContext(TransactionContext)
+    
         return (
             <div>
 
@@ -21,14 +25,68 @@ export default class Header extends Component {
                         <li class="nav-item">
                             <a class="nav-link" href="#">Trade Feed</a>
                         </li>
+                        <li class="nav-item">    
+                            <button class="btn btn-primary btn-s" id="btnTrigger" data-toggle="modal" data-target="#exampleModal">Become Trader</button>
+                        </li>
                         </ul>
                         <span class="navbar-text">
-                        <a href="#" class="badge badge-dark">Connect Wallet</a>
+                        <button class="badge badge-dark" onClick={connectWallet}>{!currentAccount ? 'Connect Wallet' : currentAccount}</button>
                         </span>
                     </div>
                 </nav>
+                {!currentAccount ? 'Connect Wallet' :
+                <Modal modalTitle="New Trader Registration" modalId="exampleModal" modalSize="modal-dialog modal-l">
+                    <ModalBody>
+                     
+                    <div className='form-row'>
+                            <div class="col-3 form-group">
+                            <label>User Name</label>   
+                            </div>
+                            <div class="col ">
+                                <input type="text" class="form-control" placeholder=" "/>
+                            </div>
+                        </div>
+                    
+                
+                        <div className='form-row'>
+                            <div class="col-3">
+                            <label>Email address</label>   
+                            </div>
+                            <div class="col ">
+                            <div className='form-row'>
+                            <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">Send Code</button>
+                            </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                   
+                    
+                    <div className='form-row'>
+                            <div class="col-3">
+                            <label>Type Code</label>   
+                            </div>
+                            <div class="col ">
+                                <input type="text" class="form-control" placeholder=" "/>
+                            </div>
+                        </div>
 
+                        <div className='form-row'>
+                            <div class="col-3">
+                            <label></label>   
+                            </div>
+                            <div class="col-6 ">
+                            <button class="btn btn-outline-secondary" type="button">Submit</button>
+                            </div>
+                        </div>
+                    
+    
+                    </ModalBody>
+                </Modal>}
             </div>
         )
-    }
+    
 }
