@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useEffect,Component, useContext, useState, useRef} from 'react'
 import TradeValue from './TradeValue'
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -6,10 +6,51 @@ import { commentActions } from '../Redux/actions/commentActions';
 import { TransactionContext } from '../context/TransactionContext';
 import Modal from '../Components/modal/Modal';
 import ModalBody from '../Components/modal/ModalBody';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
+let socket = null;
+
+
+
+export class Price extends Component {sendData = () => {
+    this.props.parentCallback(this.state.price);
+}
+    constructor(props) {
+        super(props);
+        this.state = {
+            price:0,
+            signal: this.props.signal
+        }
+    }
+
+    componentWillMount() {
+        
+        const client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${this.state.signal}usdt@trade`);
+        client.onopen = () => {
+          console.log('WebSocket Client Connected');
+        };
+        client.onmessage = (message) => {
+            let stockObj = JSON.parse(message.data);
+          this.setState({price:stockObj.p})
+        };
+      }
+
+      render() {
+       
+        return (
+            <div>Current Price {parseFloat(this.state.price).toFixed(4)}</div>
+        )
+        }
+}
+
+
 
 export default function SignalPost({signal,key}) {
     const {connectWallet} = useContext(TransactionContext);
+    const {price, setPrice} = useState('');
+    //const client = useRef(null);
 
+    let value = 0;
   //  console.log(connectWallet,'dfsdfffffffffffff')
     // const dispatch = useDispatch();
     // const {comments, isLoading, error} = useSelector(state =>
@@ -27,9 +68,29 @@ export default function SignalPost({signal,key}) {
         let newDate = new Date(date);
         return newDate.toLocaleString();
     }
+
+    function cryptoPrice(signal) {
+        
+    }
+
+    //   useEffect(() => {
+    //     client.current = new W3CWebSocket(`wss://stream.binance.com:9443/ws/btcusdt@trade`);
+    //     client.current.onopen = () => {
+    //         console.log('WebSocket Client Connected');   
+    //       };
+    //       client.current.onmessage = (message) => {
+    //           let stockObj = JSON.parse(message.data);
+    //           value = stockObj.p;
+    //           console.log(value)
+    //           client.current.close();
+              
+    //       };
+    //       console.log(value,'ds')
+    //     }, [value]);
     
+
         return (
-            
+            console.log(signal.details.symbol,'value1'),
             <div>
                 <div class="container mt-4 mb-5">
                     <div class="d-flex justify-content-center row">
@@ -145,10 +206,11 @@ export default function SignalPost({signal,key}) {
                                         
                                         <div class="d-flex justify-content-end socials"><i class="fa fa-thumbs-up"></i><i class="fa fa-comments-o"></i><i class="fa fa-share"></i></div>
                                             <div className="p-2">
+                                            <button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span>  <Price signal={signal.details.symbol}/>   </button>
                                                 <button class="btn btn-info btn-block btn-md">  <span class="fa fa-facebook-square"></span>Entry Price {signal.entryprice} </button> 
                                                { signal.target1achieved ? <button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_1 {signal.target1}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_1 {signal.target1}  </button>}
-                                               { signal.target2achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}  </button>}
-                                               { signal.target3achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}  </button>}
+                                               { signal.target2achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}   </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}  </button>}
+                                               { signal.target3achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}   </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}  </button>}
                                             </div>
                                             <div>
                                                 <div class="d-flex flex-row justify-content-between align-items-center p-2 border-top">

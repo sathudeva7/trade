@@ -7,6 +7,9 @@ import { cryptoActions } from '../Redux/actions/cryptoActions';
 import SignalPost from '../Components/SignalPost';
 import { commentActions } from '../Redux/actions/commentActions';
 import { TransactionContext } from '../context/TransactionContext'
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
+const client = new W3CWebSocket('wss://stream.binance.com:9443/ws/bsnbusdt@trade');
 
 class TraderProfile extends Component {
     static contextType = TransactionContext
@@ -14,13 +17,24 @@ class TraderProfile extends Component {
         super(props);
         this.state = {
             loading: false,
-            loadingProfile: false
+            loadingProfile: false,
+            value:''
         }
     }
 
     async componentDidMount() {
  
     }
+
+    componentWillMount() {
+        client.onopen = () => {
+          console.log('WebSocket Client Connected');
+        };
+        client.onmessage = (message) => {
+            let stockObj = JSON.parse(message.data);
+          this.setState({value:stockObj.p})
+        };
+      }
 
     async componentDidUpdate() {
         if (this.props.data_loading == false && this.state.loading == true) {
@@ -56,7 +70,6 @@ class TraderProfile extends Component {
     }
 
     render() {
-        console.log('sdfsdgggggggggggg',this.context.currentAccount)
         return (
             <div>
                {this.props.profile ?
@@ -113,8 +126,9 @@ class TraderProfile extends Component {
                                 </div>
                             </div>
                         </div> 
+                        {this.state.value}
                     </div>  :<div></div>}
-                    {this.props.signals.length > 0 && this.props.signals.map((signal,key) => {
+                    {this.props.signals.length > 0 && this.props.signals[this.props.signals.length-1].details && this.props.signals.map((signal,key) => {
                       return  <SignalPost signal={signal} key={key} />
                     })}
                 </div>
