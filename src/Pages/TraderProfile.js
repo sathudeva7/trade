@@ -6,39 +6,47 @@ import { signalActions } from '../Redux/actions/signalAction';
 import { cryptoActions } from '../Redux/actions/cryptoActions';
 import SignalPost from '../Components/SignalPost';
 import { commentActions } from '../Redux/actions/commentActions';
+import { TransactionContext } from '../context/TransactionContext'
 
 class TraderProfile extends Component {
+    static contextType = TransactionContext
     constructor(props) {
         super(props);
         this.state = {
-            loading: false
+            loading: false,
+            loadingProfile: false
         }
     }
 
     async componentDidMount() {
-        await this.props.getProfile();
-
-        if (this.props.profile) {
-            await this.props.getSignals(this.props.profile.id)
-        }
-
-        if (this.props.signals.length > 0) {
-            this.props.signals.map(async (signal,key) => {
-                console.log('signal', signal,key)
-                 await this.props.getComments(signal.id);
-                 signal.comments = this.props.comments[key];
-                 
-                 await this.props.getCryptoData(signal.name);
-                 signal.details = this.props.data[key];
-                 
-                 this.setState({ loading: true })
-            })
-        }
+ 
     }
 
-    componentDidUpdate() {
+    async componentDidUpdate() {
         if (this.props.data_loading == false && this.state.loading == true) {
             this.setState({ loading: false })
+        }
+
+        if(this.context.currentAccount && this.state.loadingProfile == false) {
+            await this.props.getProfile(this.context.currentAccount);
+
+            if (this.props.profile) {
+                await this.props.getSignals(this.props.profile[0].traderid)
+            }
+    
+            if (this.props.signals.length > 0) {
+                this.props.signals.map(async (signal,key) => {
+                    console.log('signal', signal,key)
+                     await this.props.getComments(signal.id);
+                     signal.comments = this.props.comments[key];    
+                     
+                     await this.props.getCryptoData(signal.name);
+                     signal.details = this.props.data[key];
+                     
+                     this.setState({ loading: true })
+                })
+            }
+            this.setState({ loadingProfile: true })
         }
     }
 
@@ -48,9 +56,10 @@ class TraderProfile extends Component {
     }
 
     render() {
-        console.log('sdfsdgggggggggggg',this.props.signals)
+        console.log('sdfsdgggggggggggg',this.context.currentAccount)
         return (
             <div>
+               {this.props.profile ?
                 <div class="jumbotron">
                     <div class="row">
                         <div class="col">
@@ -69,9 +78,10 @@ class TraderProfile extends Component {
                                                 </p>
                                             </div> */}
                                             <div class="col-md-3 col-sm-3 text-center">
+                                                {console.log('profile',this.props.profile[0])}
                                                 <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style={{borderRadius: '50%' , width: '120px'}}></img>
-                                                <h4 class="card-text">{this.props.profile.Name}</h4>
-                                                <div class="card-text">Trader </div>
+                                                <h4 class="card-text">{this.props.profile ?  this.props.profile[0].name:''}</h4>
+                                                <div class="card-text">{this.props.profile ?  this.props.profile[0].description:''} </div>
                                               
                                                 <button class="btn btn-primary btn-block btn-md" onClick={this.followProfile()}><span class="fa fa-facebook-square"></span> Follow</button>
                                          
@@ -103,7 +113,7 @@ class TraderProfile extends Component {
                                 </div>
                             </div>
                         </div> 
-                    </div>  
+                    </div>  :<div></div>}
                     {this.props.signals.length > 0 && this.props.signals.map((signal,key) => {
                       return  <SignalPost signal={signal} key={key} />
                     })}

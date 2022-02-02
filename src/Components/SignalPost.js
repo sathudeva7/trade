@@ -145,13 +145,10 @@ export default function SignalPost({signal,key}) {
                                         
                                         <div class="d-flex justify-content-end socials"><i class="fa fa-thumbs-up"></i><i class="fa fa-comments-o"></i><i class="fa fa-share"></i></div>
                                             <div className="p-2">
-                                                <button class="btn btn-info btn-block btn-md">  <span class="fa fa-facebook-square"></span>Entry Price {signal.entryPrice} </button> 
-                                                {
-                                                    signal.targets.map((target, index) => {
-                                                        return target.acheived == true ? <button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_{index+1} {target.price}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_{index+1} {target.price}  </button>
-                                                    })
-                                                }
-                                            
+                                                <button class="btn btn-info btn-block btn-md">  <span class="fa fa-facebook-square"></span>Entry Price {signal.entryprice} </button> 
+                                               { signal.target1achieved ? <button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_1 {signal.target1}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_1 {signal.target1}  </button>}
+                                               { signal.target2achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_2 {signal.target2}  </button>}
+                                               { signal.target3achieved ?<button class="btn btn-success btn-block btn-md">  <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}  </button> : <button class="btn btn-outline-info btn-block btn-md"> <span class="fa fa-facebook-square"></span> Target_3 {signal.target3}  </button>}
                                             </div>
                                             <div>
                                                 <div class="d-flex flex-row justify-content-between align-items-center p-2 border-top">

@@ -1,12 +1,17 @@
+import axios from 'axios';
+
 export const profileService = {
     getProfile: getProfile
 };
 
-async function getProfile() {
+async function getProfile(accountNumber) {
+    console.log('accountNumber',accountNumber)
     try {
-        let profile = {Name:'SATHU', Age:25, id:0, type: 'Trader', walletId: '0x98'};
-        
-        return profile;
+        return await axios.get(`http://localhost:5000/api/trader/getProfile/${accountNumber}`)
+        .then((response) => {
+            console.log(response)
+           return response.data;
+        })
     } catch (error) {
         console.log(error);
     }

@@ -5,13 +5,13 @@ export const profileActions ={
     getProfile
 }
 
-function getProfile() {
+function getProfile(accountNumber) {
     return async dispatch => {
         try {
             dispatch(clearExisting());
             dispatch(request());
 
-            let profile = await profileService.getProfile();
+            let profile = await profileService.getProfile(accountNumber);
             
             dispatch(success(profile));
         } catch (error) {

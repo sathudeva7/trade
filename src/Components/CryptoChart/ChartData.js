@@ -43,6 +43,7 @@ const useGetChartData = (cryptoName, interval, options) => {
 };
 
 const ChartData = ({ cryptoName, isExpanded }) => {
+  console.log('dasd',cryptoName)
   const [dataInterval, setDataInterval] = useState(intervals[0].value);
 
   const { isLoading, data } = useGetChartData(cryptoName, dataInterval, {

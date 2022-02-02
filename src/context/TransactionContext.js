@@ -43,8 +43,9 @@ export const TransactionProvider = ({children}) => {
             if (!ethereum) return alert('Please install Metamask');
 
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-
+            window.localStorage.setItem('accounts', accounts[0]);
             setCurrentAccount(accounts[0]);
+
         } catch (error) {
             console.log(error);
 

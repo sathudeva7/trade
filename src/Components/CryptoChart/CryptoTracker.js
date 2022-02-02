@@ -75,7 +75,7 @@ const CryptoTracker = ({ cryptoName }) => {
   const { image, name, market_data: marketData } = data;
 
   return (
-    console.log(cryptoName.image,'data'),
+    console.log(cryptoName,'data'),
     <div className={`card ${isExpanded ? "expanded" : "collapsed"}`}>
       {!isExpanded && <button onClick={onCardClick} className="hitzone" />}
       <div className="card-inner">
